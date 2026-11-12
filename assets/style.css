@@ -1052,3 +1052,277 @@ html[dir="rtl"] .h2-copy,html[dir="rtl"] .h2-copy h1,html[dir="rtl"] .h2-copy p{
 }
 .brand-drop{display:none!important}
 .brand-mark:before,.brand-mark:after{display:none!important}
+
+
+/* ==========================================================================
+   DARK THEME — Button / CTA hover contrast fix
+   Problem: --blue-2 resolves to #b0eafa (very light) in dark mode.
+   .btn:hover sets background:var(--blue-2) but keeps color:#fff → invisible text.
+   Fix: override every hover state so text is always legible in dark theme.
+   ========================================================================== */
+
+/* 1. Primary filled button (.btn / .nav-cta)
+      Default hover → light blue bg + white text = invisible.
+      Fix: use a rich mid-blue that keeps white text readable. */
+html[data-theme="dark"] .btn:hover,
+html[data-theme="dark"] .nav-cta:hover {
+  background: #0a7eb8 !important;
+  color: #fff !important;
+  box-shadow: 0 12px 28px rgba(10,126,184,.45);
+}
+
+/* 2. Outline button (.btn-outline)
+      .btn:hover overrides bg to --blue-2 (light); .btn-outline:hover sets color:#fff → invisible.
+      Fix: use the dark-theme --blue (#56c7e8) as bg and pair it with a dark text colour. */
+html[data-theme="dark"] .btn.btn-outline:hover,
+html[data-theme="dark"] a.btn-outline:hover {
+  background: var(--blue) !important;   /* #56c7e8 — vivid on dark surface */
+  color: #061b2b !important;            /* near-black text; high contrast on cyan */
+  border-color: var(--blue) !important;
+  box-shadow: 0 10px 24px rgba(86,199,232,.30);
+}
+
+/* 3. Hero outline buttons (home-2 "Become a partner" etc.)
+      These sit on a dark hero so the existing white colour is correct — but
+      the inherited .btn:hover bg override still washes them out in dark mode. */
+html[data-theme="dark"] .hero .btn-outline:hover {
+  background: rgba(255,255,255,.22) !important;
+  border-color: #fff !important;
+  color: #fff !important;
+  box-shadow: 0 10px 25px rgba(255,255,255,.18);
+}
+
+/* 4. h2-actions outline button (home-2 hero) */
+html[data-theme="dark"] .h2-actions .h2-btn-outline:hover {
+  background: rgba(255,255,255,.22) !important;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+
+/* 5. Nav CTA specific (top-right "Become a distributor" pill) */
+html[data-theme="dark"] .nav-cta:hover {
+  background: #0a7eb8 !important;
+  color: #fff !important;
+}
+
+/* 6. Mobile menu CTA — stays white-on-gradient; just ensure text colour */
+html[data-theme="dark"] .nav-links.mobile-open .mobile-nav-cta:hover {
+  background: linear-gradient(110deg,#0a90c0,#0a6d94) !important;
+  color: #fff !important;
+}
+
+/* 7. Quote-band .btn (white pill on gradient band)
+      .btn:hover overrides bg to --blue-2; quote-band sets color:#075b8d.
+      Fix: keep the white bg and dark text on hover for both themes. */
+.quote-band .btn:hover {
+  background: #e6f9ff !important;
+  color: #07577d !important;
+}
+
+/* 8. Quote-band .text-link hover (products / services pages) */
+html[data-theme="dark"] .quote-band .text-link:hover {
+  background: #fff !important;
+  color: #07577d !important;
+}
+
+/* 9. Plain-submit (contact form "Submit enquiry") — text link style */
+html[data-theme="dark"] .plain-submit:hover {
+  color: var(--aqua) !important;
+  border-color: var(--aqua) !important;
+}
+
+/* 10. Inner-page text-link hover (products / quality / services cards) */
+html[data-theme="dark"] .inner-page main .text-link:hover {
+  color: var(--aqua) !important;
+  border-color: var(--aqua) !important;
+}
+
+/* 11. Modal "Understood" button (quality page) */
+html[data-theme="dark"] .modal-box .btn:hover {
+  background: #0a7eb8 !important;
+  color: #fff !important;
+}
+
+/* 12. Footer newsletter "Join" button */
+html[data-theme="dark"] .footer-newsletter button:hover {
+  background: #1da8b6 !important;
+  color: #fff !important;
+}
+
+/* 13. Tool buttons (theme & RTL toggles) hover — already use --blue via var,
+      but confirm text stays visible in dark mode */
+html[data-theme="dark"] .tool-btn:hover {
+  border-color: var(--aqua);
+  color: var(--aqua);
+}
+
+/* 14. Social icon buttons in footer */
+html[data-theme="dark"] .social-btn:hover {
+  background: #25b7c6 !important;
+  border-color: #25b7c6 !important;
+  color: #052c42 !important;
+}
+
+/* 15. Back-to-top arrow */
+html[data-theme="dark"] .back-top:hover {
+  background: #0a7eb8 !important;
+  color: #fff !important;
+}
+
+/* 16. FAQ question button — ensure text visible on hover */
+html[data-theme="dark"] .faq-question:hover {
+  color: var(--blue);
+}
+
+/* 17. Quality table "View note" text-link buttons */
+html[data-theme="dark"] .text-link[data-report]:hover,
+html[data-theme="dark"] button.text-link:hover {
+  color: var(--aqua) !important;
+  border-color: var(--aqua) !important;
+}
+
+
+/* Products page — gap between product-grid and the split-band section below it.
+   The split-band is nested inside the product section's container div,
+   so it needs explicit top margin to separate from the grid above. */
+.product-grid-premium + section.split-band,
+.product-grid + section.split-band {
+  margin-top: 72px;
+}
+@media(max-width:768px){
+  .product-grid-premium + section.split-band,
+  .product-grid + section.split-band {
+    margin-top: 48px;
+  }
+}
+
+
+/* Products page — the "Cans & Special Formats" split-band section is nested
+   inside the product-range section's container div, sitting flush against
+   the product grid. Add breathing room above it. */
+.product-grid-premium ~ section.split-band,
+.product-grid ~ section.split-band,
+div.container > section.split-band:first-of-type {
+  margin-top: 72px;
+}
+@media(max-width:768px){
+  .product-grid-premium ~ section.split-band,
+  .product-grid ~ section.split-band,
+  div.container > section.split-band:first-of-type {
+    margin-top: 48px;
+  }
+}
+
+
+/* ==========================================================================
+   CONTACT PAGE — FAQ redesign with generous spacing & polished style
+   ========================================================================== */
+
+/* Container: wider, more centred, more breathing room */
+.faq-list {
+  max-width: 780px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;    /* clear space between every item */
+}
+
+/* Each item: more padding, softer shadow, left accent strip */
+.faq-item {
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  background: var(--surface) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 18px rgba(5,47,68,.07) !important;
+  position: relative !important;
+}
+/* coloured left-edge accent bar */
+.faq-item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--aqua), var(--blue));
+  border-radius: 18px 0 0 18px;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.faq-item:hover::before,
+.faq-item.open::before {
+  opacity: 1;
+}
+
+/* Question row */
+.faq-question {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 18px !important;
+  padding: 22px 26px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--text) !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  text-align: start !important;
+  cursor: pointer !important;
+  transition: color .2s !important;
+}
+.faq-question:hover {
+  color: var(--blue) !important;
+}
+
+/* + / × icon */
+.faq-question span {
+  flex: 0 0 28px;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blue) 12%, transparent);
+  color: var(--blue);
+  font-size: 18px; font-weight: 900;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), background .2s, color .2s;
+}
+.faq-item.open .faq-question span {
+  transform: rotate(45deg);
+  background: var(--aqua);
+  color: #fff;
+}
+
+/* Answer panel */
+.faq-answer {
+  display: none;
+  padding: 0 26px 22px 26px !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  line-height: 1.85 !important;
+  border-top: 1px solid var(--line);
+  margin: 0 14px;
+}
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+/* Open state: highlight the item */
+.faq-item.open {
+  border-color: color-mix(in srgb, var(--aqua) 55%, var(--line)) !important;
+  box-shadow: 0 8px 28px rgba(5,47,68,.11) !important;
+}
+
+/* Dark theme adjustments */
+html[data-theme="dark"] .faq-item {
+  box-shadow: 0 4px 20px rgba(0,0,0,.22) !important;
+}
+html[data-theme="dark"] .faq-item.open {
+  box-shadow: 0 8px 32px rgba(0,0,0,.32) !important;
+}
+html[data-theme="dark"] .faq-question span {
+  background: color-mix(in srgb, var(--aqua) 18%, transparent);
+}
+
+@media(max-width: 640px) {
+  .faq-question { padding: 18px 18px !important; font-size: 13px !important; }
+  .faq-answer   { padding: 0 18px 18px 18px !important; margin: 0 8px; }
+}
